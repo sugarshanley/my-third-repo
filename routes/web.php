@@ -3,5 +3,7 @@
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
+    // welcome.blade.php
+    // hello.blade.php
+    return view('hello');
 });
