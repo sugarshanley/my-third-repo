@@ -11,3 +11,7 @@ Route::get('/enrollment', [EnrollmentController::class, 'showForm'])
     ->name('enrollment.form');
 
 Route::post('/enrollment', [EnrollmentController::class, 'submitForm']);
+
+Route::get('/login', function () {
+    return view('login');
+});
