@@ -3,24 +3,32 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\EnrollmentRequest;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\View\View;
 
 class EnrollmentController extends Controller
 {
-    public function showForm()
+    /**
+     * Display the student enrollment form.
+     */
+    public function create(): View
     {
         return view('enrollment');
     }
 
-    public function submitForm(EnrollmentRequest $request)
+    /**
+     * Validate and process the enrollment form.
+     */
+    public function store(EnrollmentRequest $request): RedirectResponse
     {
         $validated = $request->validated();
 
         return redirect()
-            ->route('enrollment.form')
+            ->route('enrollment.create')
             ->with(
                 'success',
-                'Application submitted successfully for Student ID '
-                . $validated['student_id'] . '!'
+                'Enrollment submitted successfully for Student ID: '
+                . $validated['student_id']
             );
     }
 }

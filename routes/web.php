@@ -3,15 +3,26 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EnrollmentController;
 
+/*
+|--------------------------------------------------------------------------
+| Home Page
+|--------------------------------------------------------------------------
+*/
+
 Route::get('/', function () {
     return view('welcome');
-});
+})->name('home');
 
-Route::get('/enrollment', [EnrollmentController::class, 'showForm'])
-    ->name('enrollment.form');
+/*
+|--------------------------------------------------------------------------
+| Student Enrollment
+|--------------------------------------------------------------------------
+*/
 
-Route::post('/enrollment', [EnrollmentController::class, 'submitForm']);
+// Display the enrollment form
+Route::get('/enrollment', [EnrollmentController::class, 'create'])
+    ->name('enrollment.create');
 
-Route::get('/login', function () {
-    return view('login');
-});
+// Process the submitted enrollment form
+Route::post('/enrollment', [EnrollmentController::class, 'store'])
+    ->name('enrollment.store');

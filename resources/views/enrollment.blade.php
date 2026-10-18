@@ -3,127 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ACT Portal - Student Enrollment</title>
+    <title>Student Enrollment Portal</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+
+    <style>
+        body {
+            margin: 0;
+            background: #f4f6f9;
+            color: #263445;
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        .site-header {
+            background: #172b4d;
+            color: #fff;
+            padding: 18px 0;
+        }
+
+        .site-title {
+            margin: 0;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .site-subtitle {
+            margin-top: 4px;
+            color: #d5ddeb;
+            font-size: 12px;
+        }
+
+        .home-link {
+            color: #fff;
+            text-decoration: none;
+            border: 1px solid #b9c5d5;
+            border-radius: 4px;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .home-link:hover {
+            color: #fff;
+            background: #263f68;
+        }
+
+        .page-container {
+            max-width: 850px;
+            margin: 35px auto;
+            padding: 0 15px;
+        }
+
+        .page-heading {
+            margin-bottom: 22px;
+        }
+
+        .page-heading h1 {
+            margin-bottom: 8px;
+            font-size: 28px;
+            font-weight: 700;
+            color: #172b4d;
+        }
+
+        .page-heading p {
+            margin: 0;
+            color: #657184;
+            line-height: 1.6;
+        }
+
+        .form-panel {
+            background: #fff;
+            border: 1px solid #dce2e9;
+            border-radius: 6px;
+        }
+
+        .form-panel-header {
+            padding: 17px 22px;
+            border-bottom: 1px solid #dce2e9;
+        }
+
+        .form-panel-header h2 {
+            margin: 0;
+            font-size: 18px;
+            font-weight: 700;
+        }
+
+        .form-panel-body {
+            padding: 22px;
+        }
+
+        .form-label {
+            margin-bottom: 7px;
+            font-weight: 600;
+            color: #344256;
+        }
+
+        .required {
+            color: #c0392b;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 42px;
+            border: 1px solid #ccd4df;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #5276a5;
+            box-shadow: 0 0 0 2px rgba(82, 118, 165, .12);
+        }
+
+        .field-help {
+            margin-top: 5px;
+            color: #737f90;
+            font-size: 12px;
+        }
+
+        .field-group {
+            margin-bottom: 19px;
+        }
+
+        .terms-row {
+            margin-bottom: 20px;
+        }
+
+        .terms-row label {
+            line-height: 1.6;
+        }
+
+        .btn-submit {
+            padding: 11px 18px;
+            background: #172b4d;
+            color: #fff;
+            border: 1px solid #172b4d;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .btn-submit:hover {
+            background: #263f68;
+            color: #fff;
+        }
+
+        .alert {
+            border-radius: 4px;
+            font-size: 13px;
+        }
+
+        .page-footer {
+            margin-top: 35px;
+            padding: 18px 0;
+            border-top: 1px solid #dce2e9;
+            color: #737f90;
+            font-size: 12px;
+            text-align: center;
+        }
+
+        @media (max-width: 576px) {
+            .page-container {
+                margin-top: 25px;
+            }
+
+            .page-heading h1 {
+                font-size: 24px;
+            }
+
+            .form-panel-body {
+                padding: 17px;
+            }
+
+            .site-title {
+                font-size: 17px;
+            }
+        }
+    </style>
 </head>
 
-<body class="bg-light">
+<body>
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-7 col-lg-6">
+<header class="site-header">
+    <div class="container d-flex justify-content-between align-items-center gap-3">
+        <div>
+            <h1 class="site-title">ACT Laravel App</h1>
+            <div class="site-subtitle">Student Enrollment Portal</div>
+        </div>
 
-            <div class="card shadow-sm border-0">
-                <div class="card-header bg-primary text-white py-3">
-                    <h4 class="mb-0">Student Enrollment Portal</h4>
+        <a href="{{ route('home') }}" class="home-link">Home</a>
+    </div>
+</header>
+
+<main class="page-container">
+
+    <div class="page-heading">
+        <h1>Student Enrollment</h1>
+        <p>Please complete the form below. All fields are required unless indicated otherwise.</p>
+    </div>
+
+    @if (session('success'))
+        <div class="alert alert-success" role="alert">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger" role="alert">
+            <strong>Please check the following fields:</strong>
+            <ul class="mb-0 mt-2">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <section class="form-panel">
+
+        <div class="form-panel-header">
+            <h2>Enrollment Information</h2>
+        </div>
+
+        <div class="form-panel-body">
+
+            <form action="{{ route('enrollment.store') }}" method="POST">
+                @csrf
+
+                <div class="row">
+                    <div class="col-md-6 field-group">
+                        <label for="full_name" class="form-label">
+                            Full Name <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="full_name"
+                            name="full_name"
+                            class="form-control @error('full_name') is-invalid @enderror"
+                            value="{{ old('full_name') }}"
+                            placeholder="Juan Dela Cruz"
+                            minlength="5"
+                            required
+                        >
+
+                        @error('full_name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 field-group">
+                        <label for="student_id" class="form-label">
+                            Student ID <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="student_id"
+                            name="student_id"
+                            class="form-control @error('student_id') is-invalid @enderror"
+                            value="{{ old('student_id') }}"
+                            placeholder="2026-01234"
+                            pattern="[0-9]{4}-[0-9]{5}"
+                            maxlength="10"
+                            required
+                        >
+
+                        <div class="field-help">Format: YYYY-XXXXX</div>
+
+                        @error('student_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 field-group">
+                        <label for="course_track" class="form-label">
+                            Course Track <span class="required">*</span>
+                        </label>
+
+                        <select
+                            id="course_track"
+                            name="course_track"
+                            class="form-select @error('course_track') is-invalid @enderror"
+                            required
+                        >
+                            <option value="">Select Track</option>
+                            <option value="web"
+                                {{ old('course_track') == 'web' ? 'selected' : '' }}>
+                                Web Development
+                            </option>
+                            <option value="network"
+                                {{ old('course_track') == 'network' ? 'selected' : '' }}>
+                                Networking
+                            </option>
+                        </select>
+
+                        @error('course_track')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 field-group">
+                        <label for="email" class="form-label">
+                            Email Address <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            class="form-control @error('email') is-invalid @enderror"
+                            value="{{ old('email') }}"
+                            placeholder="student@example.com"
+                            required
+                        >
+
+                        @error('email')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 field-group">
+                        <label for="units" class="form-label">
+                            Units to Enroll <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="number"
+                            id="units"
+                            name="units"
+                            class="form-control @error('units') is-invalid @enderror"
+                            value="{{ old('units') }}"
+                            placeholder="3 to 21"
+                            min="3"
+                            max="21"
+                            step="1"
+                            required
+                        >
+
+                        @error('units')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
 
-                <div class="card-body p-4">
+                <div class="terms-row">
+                    <div class="form-check">
+                        <input
+                            type="checkbox"
+                            id="terms"
+                            name="terms"
+                            value="1"
+                            class="form-check-input @error('terms') is-invalid @enderror"
+                            {{ old('terms') ? 'checked' : '' }}
+                            required
+                        >
 
-                    @if (session('success'))
-                        <div class="alert alert-success">
-                            {{ session('success') }}
-                        </div>
-                    @endif
+                        <label for="terms" class="form-check-label">
+                            I agree to the enrollment terms and conditions.
+                        </label>
 
-                    <p class="text-muted">
-                        Please complete the student enrollment form.
-                    </p>
-
-                    <form action="{{ url('/enrollment') }}" method="POST">
-                        @csrf
-
-                        <div class="mb-3">
-                            <label for="fullname" class="form-label">Full Name</label>
-                            <input type="text" name="fullname" id="fullname"
-                                   class="form-control @error('fullname') is-invalid @enderror"
-                                   value="{{ old('fullname') }}"
-                                   placeholder="Juan Dela Cruz">
-                            @error('fullname')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="student_id" class="form-label">Student ID</label>
-                            <input type="text" name="student_id" id="student_id"
-                                   class="form-control @error('student_id') is-invalid @enderror"
-                                   value="{{ old('student_id') }}"
-                                   placeholder="2026-01234">
-                            @error('student_id')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="track" class="form-label">Course Track</label>
-                            <select name="track" id="track"
-                                    class="form-select @error('track') is-invalid @enderror">
-                                <option value="">Select Track</option>
-                                <option value="web" @selected(old('track') === 'web')>
-                                    Web Development
-                                </option>
-                                <option value="network" @selected(old('track') === 'network')>
-                                    Network Administration
-                                </option>
-                            </select>
-                            @error('track')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="email" class="form-label">Email Address</label>
-                            <input type="email" name="email" id="email"
-                                   class="form-control @error('email') is-invalid @enderror"
-                                   value="{{ old('email') }}"
-                                   placeholder="student@example.com">
-                            @error('email')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="units" class="form-label">Units to Enroll</label>
-                            <input type="number" name="units" id="units"
-                                   class="form-control @error('units') is-invalid @enderror"
-                                   value="{{ old('units') }}"
-                                   placeholder="3 to 21">
-                            @error('units')
-                                <div class="invalid-feedback">{{ $message }}</div>
-                            @enderror
-                        </div>
-
-                        <div class="mb-3">
-                            <div class="form-check">
-                                <input type="checkbox" name="terms" id="terms"
-                                       value="1"
-                                       class="form-check-input @error('terms') is-invalid @enderror"
-                                       @checked(old('terms'))>
-                                <label for="terms" class="form-check-label">
-                                    I agree to the enrollment terms and conditions
-                                </label>
-                                @error('terms')
-                                    <div class="invalid-feedback d-block">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary w-100">
-                            Submit Enrollment Application
-                        </button>
-                    </form>
-
+                        @error('terms')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
-            </div>
+
+                <button type="submit" class="btn-submit">
+                    Submit Enrollment Application
+                </button>
+
+            </form>
 
         </div>
-    </div>
-</div>
+    </section>
+
+    <footer class="page-footer">
+        ACT Laravel App · Student Enrollment Portal
+    </footer>
+
+</main>
+
+<script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
 
 </body>
 </html>
