@@ -18,7 +18,7 @@
 
         .site-header {
             background: #172b4d;
-            color: #fff;
+            color: white;
             padding: 18px 0;
         }
 
@@ -35,16 +35,15 @@
         }
 
         .home-link {
-            color: #fff;
+            color: white;
             text-decoration: none;
             border: 1px solid #b9c5d5;
             border-radius: 4px;
             padding: 8px 12px;
-            font-size: 13px;
         }
 
         .home-link:hover {
-            color: #fff;
+            color: white;
             background: #263f68;
         }
 
@@ -66,13 +65,12 @@
         }
 
         .page-heading p {
-            margin: 0;
             color: #657184;
             line-height: 1.6;
         }
 
         .form-panel {
-            background: #fff;
+            background: white;
             border: 1px solid #dce2e9;
             border-radius: 6px;
         }
@@ -116,28 +114,20 @@
             box-shadow: 0 0 0 2px rgba(82, 118, 165, .12);
         }
 
+        .field-group {
+            margin-bottom: 19px;
+        }
+
         .field-help {
             margin-top: 5px;
             color: #737f90;
             font-size: 12px;
         }
 
-        .field-group {
-            margin-bottom: 19px;
-        }
-
-        .terms-row {
-            margin-bottom: 20px;
-        }
-
-        .terms-row label {
-            line-height: 1.6;
-        }
-
         .btn-submit {
             padding: 11px 18px;
             background: #172b4d;
-            color: #fff;
+            color: white;
             border: 1px solid #172b4d;
             border-radius: 4px;
             font-size: 14px;
@@ -146,12 +136,7 @@
 
         .btn-submit:hover {
             background: #263f68;
-            color: #fff;
-        }
-
-        .alert {
-            border-radius: 4px;
-            font-size: 13px;
+            color: white;
         }
 
         .page-footer {
@@ -175,10 +160,6 @@
             .form-panel-body {
                 padding: 17px;
             }
-
-            .site-title {
-                font-size: 17px;
-            }
         }
     </style>
 </head>
@@ -200,7 +181,7 @@
 
     <div class="page-heading">
         <h1>Student Enrollment</h1>
-        <p>Please complete the form below. All fields are required unless indicated otherwise.</p>
+        <p>Please complete the form below. All fields are required.</p>
     </div>
 
     @if (session('success'))
@@ -221,7 +202,6 @@
     @endif
 
     <section class="form-panel">
-
         <div class="form-panel-header">
             <h2>Enrollment Information</h2>
         </div>
@@ -232,24 +212,48 @@
                 @csrf
 
                 <div class="row">
+
                     <div class="col-md-6 field-group">
-                        <label for="full_name" class="form-label">
-                            Full Name <span class="required">*</span>
+                        <label for="first_name" class="form-label">
+                            First Name <span class="required">*</span>
                         </label>
 
                         <input
                             type="text"
-                            id="full_name"
-                            name="full_name"
-                            class="form-control @error('full_name') is-invalid @enderror"
-                            value="{{ old('full_name') }}"
-                            placeholder="Juan Dela Cruz"
-                            minlength="5"
+                            id="first_name"
+                            name="first_name"
+                            class="form-control @error('first_name') is-invalid @enderror"
+                            value="{{ old('first_name') }}"
+                            placeholder="Enter first name"
                             required
                         >
 
-                        @error('full_name')
+                        @error('first_name')
                             <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="col-md-6 field-group">
+                        <label for="last_name" class="form-label">
+                            Last Name <span class="required">*</span>
+                        </label>
+
+                        <input
+                            type="text"
+                            id="last_name"
+                            name="last_name"
+                            class="form-control @error('last_name') is-invalid @enderror"
+                            value="{{ old('last_name') }}"
+                            placeholder="Enter last name"
+                            required
+                        >
+
+                        @error('last_name')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+
+                        @error('fullname')
+                            <div class="text-danger small mt-1">{{ $message }}</div>
                         @enderror
                     </div>
 
@@ -278,28 +282,30 @@
                     </div>
 
                     <div class="col-md-6 field-group">
-                        <label for="course_track" class="form-label">
+                        <label for="track" class="form-label">
                             Course Track <span class="required">*</span>
                         </label>
 
                         <select
-                            id="course_track"
-                            name="course_track"
-                            class="form-select @error('course_track') is-invalid @enderror"
+                            id="track"
+                            name="track"
+                            class="form-select @error('track') is-invalid @enderror"
                             required
                         >
                             <option value="">Select Track</option>
+
                             <option value="web"
-                                {{ old('course_track') == 'web' ? 'selected' : '' }}>
+                                {{ old('track') == 'web' ? 'selected' : '' }}>
                                 Web Development
                             </option>
+
                             <option value="network"
-                                {{ old('course_track') == 'network' ? 'selected' : '' }}>
-                                Networking
+                                {{ old('track') == 'network' ? 'selected' : '' }}>
+                                Network Administration
                             </option>
                         </select>
 
-                        @error('course_track')
+                        @error('track')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -346,9 +352,10 @@
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+
                 </div>
 
-                <div class="terms-row">
+                <div class="mb-4">
                     <div class="form-check">
                         <input
                             type="checkbox"
@@ -375,7 +382,6 @@
                 </button>
 
             </form>
-
         </div>
     </section>
 
