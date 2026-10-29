@@ -3,6 +3,8 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use App\Http\Middleware\EnsureIsAdmin;
+use App\Http\Middleware\EnsureClearanceKey;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -11,7 +13,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        $middleware->alias([
+            'is_admin' => EnsureIsAdmin::class,
+            'check_key' => EnsureClearanceKey::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
